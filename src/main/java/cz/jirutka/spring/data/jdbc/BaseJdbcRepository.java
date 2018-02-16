@@ -44,10 +44,7 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static cz.jirutka.spring.data.jdbc.internal.IterableUtils.toList;
 import static cz.jirutka.spring.data.jdbc.internal.ObjectUtils.wrapToArray;
@@ -285,6 +282,41 @@ public abstract class BaseJdbcRepository<T, ID extends Serializable>
         }
 
         return postUpdate(entity);
+    }
+
+    public <S extends T> Iterable<S> saveAll(Iterable<S> entities)
+    {
+        return save(entities);
+    }
+
+
+    public Optional<T> findById(ID integer)
+    {
+        return Optional.of(findOne(integer));
+    }
+
+
+    public boolean existsById(ID integer)
+    {
+        return findById(integer).isPresent();
+    }
+
+
+    public Iterable<T> findAllById(Iterable<ID> integers)
+    {
+        return findAll(integers);
+    }
+
+
+    public void deleteById(ID integer)
+    {
+        delete(integer);
+    }
+
+
+    public void deleteAll(Iterable<? extends T> entities)
+    {
+        delete(entities);
     }
 
 
